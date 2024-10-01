@@ -81,22 +81,27 @@ contains(QWT_CONFIG, QwtPkgConfig) {
 
     greaterThan(QT_MAJOR_VERSION, 4) {
 
-        QMAKE_PKGCONFIG_FILE = Qt$${QT_MAJOR_VERSION}$${QMAKE_PKGCONFIG_NAME}
-        QMAKE_PKGCONFIG_REQUIRES = Qt5Widgets Qt5Concurrent Qt5PrintSupport
+        QTLIB_PREFIX = Qt$${QT_MAJOR_VERSION}  # e.g., "Qt5"
+        QMAKE_PKGCONFIG_FILE = $${QTLIB_PREFIX}$${QMAKE_PKGCONFIG_NAME}  # e.g., "Qt5Qwt6"
+
+        # Base Qt library requirements
+        QMAKE_PKGCONFIG_REQUIRES = $${QTLIB_PREFIX}Widgets
+        QMAKE_PKGCONFIG_REQUIRES += $${QTLIB_PREFIX}Concurrent
+        QMAKE_PKGCONFIG_REQUIRES += $${QTLIB_PREFIX}PrintSupport
 
         contains(QWT_CONFIG, QwtSvg) {
-            QMAKE_PKGCONFIG_REQUIRES += Qt5Svg
+            QMAKE_PKGCONFIG_REQUIRES += $${QTLIB_PREFIX}Svg
         }
 
         contains(QWT_CONFIG, QwtOpenGL) {
-            QMAKE_PKGCONFIG_REQUIRES += Qt5OpenGL
+            QMAKE_PKGCONFIG_REQUIRES += $${QTLIB_PREFIX}OpenGL
         }
 
         QMAKE_DISTCLEAN += $${DESTDIR}/$${QMAKE_PKGCONFIG_DESTDIR}/$${QMAKE_PKGCONFIG_FILE}.pc
     }
     else {
 
-        # there is no QMAKE_PKGCONFIG_FILE fo Qt4
+        # there is no QMAKE_PKGCONFIG_FILE for Qt4
         QMAKE_PKGCONFIG_REQUIRES = QtGui 
 
         contains(QWT_CONFIG, QwtSvg) {
