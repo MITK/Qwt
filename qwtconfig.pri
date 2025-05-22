@@ -137,7 +137,13 @@ win32 {
 # Otherwise you have to build them from the examples directory.
 ######################################################################
 
-QWT_CONFIG     += QwtExamples
+QWT_NO_EXAMPLES=$$(QWT_NO_EXAMPLES)
+isEmpty(QWT_NO_EXAMPLES) {
+    QWT_CONFIG     += QwtExamples
+    message('enable examples')
+} else {
+    message('disable examples')
+}
 
 ######################################################################
 # The playground is primarily intended for the Qwt development
@@ -148,14 +154,26 @@ QWT_CONFIG     += QwtExamples
 # Otherwise you have to build them from the playground directory.
 ######################################################################
 
-QWT_CONFIG     += QwtPlayground
+QWT_NO_PLAYGROUND=$$(QWT_NO_PLAYGROUND)
+isEmpty(QWT_NO_PLAYGROUND) {
+    QWT_CONFIG     += QwtPlayground
+    message('enable playground')
+} else {
+    message('disable playground')
+}
 
 ######################################################################
 # If you want to auto build the tests, enable the line below
 # Otherwise you have to build them from the tests directory.
 ######################################################################
 
-QWT_CONFIG     += QwtTests
+QWT_NO_TESTS=$$(QWT_NO_TESTS)
+isEmpty(QWT_NO_TESTS) {
+    QWT_CONFIG     += QwtTests
+    message('enable tests')
+} else {
+    message('disable tests')
+}
 
 ######################################################################
 # When Qt has been built as framework qmake wants
