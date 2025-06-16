@@ -860,7 +860,7 @@ void QwtPlotRenderer::renderCanvas( const QwtPlot* plot,
 
         QPen pen;
         pen.setColor( qwtScalePenColor( plot ) );
-        pen.setWidth( qwtScalePenWidth( plot ) );
+        pen.setWidthF( qwtScalePenWidth( plot ) );
         pen.setJoinStyle( Qt::MiterJoin );
 
         painter->setPen( pen );
