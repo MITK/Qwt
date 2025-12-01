@@ -117,13 +117,20 @@ Panel::Panel( QWidget* parent )
     layout->addWidget( curveBox );
     layout->addStretch( 10 );
 
+    auto checkStateChanged =
+#if QT_VERSION >= 0x060700
+        SIGNAL(checkStateChanged(Qt::CheckState));
+#else
+        SIGNAL(stateChanged(int));
+#endif
+
     connect( m_legend.checkBox,
-        SIGNAL(stateChanged(int)), SIGNAL(edited()) );
+        checkStateChanged, SIGNAL(edited()) );
     connect( m_legend.positionBox,
         SIGNAL(currentIndexChanged(int)), SIGNAL(edited()) );
 
     connect( m_legendItem.checkBox,
-        SIGNAL(stateChanged(int)), SIGNAL(edited()) );
+        checkStateChanged, SIGNAL(edited()) );
     connect( m_legendItem.numColumnsBox,
         SIGNAL(valueChanged(int)), SIGNAL(edited()) );
     connect( m_legendItem.hAlignmentBox,
