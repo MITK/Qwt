@@ -1,7 +1,17 @@
 cmake_minimum_required(VERSION 3.16)
 
+# Derive the Qwt version from the authoritative source header (src/qwt_global.h)
+# so it stays correct across upstream syncs instead of being hard-coded here.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/src/qwt_global.h" _qwt_global_h)
+string(REGEX MATCH "QWT_VERSION_STR[^\"]*\"([0-9]+)\\.([0-9]+)\\.([0-9]+)\"" _m "${_qwt_global_h}")
+set(QWT_VERSION_STRING "${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3}")
+if(NOT QWT_VERSION_STRING MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+  message(WARNING "Could not parse QWT_VERSION_STR from src/qwt_global.h; falling back to 6.4.0")
+  set(QWT_VERSION_STRING "6.4.0")
+endif()
+
 project(Qwt
-  VERSION 6.2.0
+  VERSION ${QWT_VERSION_STRING}
   DESCRIPTION "Qt Widgets for Technical Applications"
   HOMEPAGE_URL "https://qwt.sourceforge.io"
   LANGUAGES CXX
